@@ -155,11 +155,23 @@ vim.opt.cursorline = true
 vim.opt.scrolloff = 10
 
 -- [[ Basic Keymaps ]]
---  See `:help vim.keymap.set()`
-
+--  See `:help vim.keymap.
+--  vim.keymap.set takes the following arguments
+--  {mode} string|table Mode short-name. Can also be a list of modes to create mapping on multiple modes
+--  {lhs} (string) Left-hand side {lhs} of the mapping
+--  {rhs} string|function Right-hand side {rhs} of the mapping can be a lua function
+--  {opts} (table|nil) Table of :map-arguments
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+
+-- Window Management
+
+-- Resize windows with arrow keys
+vim.keymap.set('n', '<C-Up>', ':resize +2<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-Down>', ':resize -2<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-Left>', ':vertical resize -2<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-Right>', ':vertical resize +2<CR>', { noremap = true, silent = true })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
