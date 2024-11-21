@@ -1,5 +1,4 @@
 -- Keymaps for nvim-dap
-
 vim.keymap.set('n', '<F5>', function()
   require('dap').continue()
 end)
@@ -40,6 +39,11 @@ end)
 vim.keymap.set('n', '<Leader>ds', function()
   local widgets = require 'dap.ui.widgets'
   widgets.centered_float(widgets.scopes)
+end)
+
+-- keymaps for dapui --
+vim.keymap.set('n', '<Leader>dui', function()
+  require('dapui').toggle()
 end)
 
 -- [[ Basic Keymaps ]]

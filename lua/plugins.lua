@@ -75,10 +75,22 @@ require('lazy').setup({
   --   -- end,
   -- },
   {
+    'rcarriga/nvim-dap-ui',
+    dependencies = {
+      'mfussenegger/nvim-dap',
+      'nvim-neotest/nvim-nio',
+    },
+  },
+  {
     'mfussenegger/nvim-dap',
     opts = {},
     config = function()
       local dap = require 'dap'
+      dap.adapters.php = {
+        type = 'executable',
+        command = 'node',
+        args = { '/home/thomasbell/.local/share/nvim/mason/packages/php-debug-adapter/extension/out/phpDebug.js' },
+      }
       dap.adapters.go = {
         type = 'server',
         port = '${port}',
@@ -95,13 +107,34 @@ require('lazy').setup({
           program = '${file}',
         },
       }
-      -- dap.defaults.go = {
-      --   focus_terminal = true,
-      --   external_terminal = {
-      --     command = '/home/thomas/.cargo/bin/alacritty',
-      --     args = { '-e' },
-      --   },
-      -- }
+      dap.configurations.php = {
+        {
+          name = 'Listen for Xdebug',
+          type = 'php',
+          request = 'launch',
+          port = 9003,
+          cwd = '${fileDirname}',
+          program = '${file}',
+          runtimeExecutable = 'php',
+        },
+        -- to listen to any php call
+        {
+          name = 'listen for Xdebug local',
+          type = 'php',
+          request = 'launch',
+          port = 9003,
+        },
+        {
+          name = 'listen for Xdebug docker',
+          type = 'php',
+          request = 'launch',
+          port = 9003,
+          -- this is where your file is in the container
+          pathMappings = {
+            ['/var/www/html/'] = '${workspaceFolder}',
+          },
+        },
+      }
     end,
   },
   -- "gc" to comment visual regions/lines
@@ -189,6 +222,7 @@ require('lazy').setup({
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
     config = function()
+      require('dapui').setup()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
       -- it can fuzzy find! It's more than just a "file finder", it can search
       -- many different aspects of Neovim, your workspace, LSP, and more!

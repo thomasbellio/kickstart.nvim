@@ -23,9 +23,9 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
-vim.api.nvim_create_autocmd('BufWritePost', {
-  pattern = '*.php',
-  group = vim.api.nvim_create_augroup('php_cs_fixer', { clear = true }),
-  command = 'silent! !php-cs-fixer fix %',
-  desc = 'Run php-cs-fixer on save',
-})
+-- vim.api.nvim_create_autocmd('BufWritePost', {
+--   pattern = '*.php',
+--   group = vim.api.nvim_create_augroup('php_cs_fixer', { clear = true }),
+--   command = 'silent! !php-cs-fixer check %',
+--   desc = 'Run php-cs-fixer on save',
+-- })
